@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ppomppu">
+
+    <select id="getBoardList" resultType="ppomppuvo">
+		<![CDATA[
+        select *, count(*) over() as t_count
+        from ppomppu
+        where date >= #{start_date} and date <= #{end_date}
+		]]>
+		<if test="searchCondition == 'TITLE'">
+			and l_title like '%'||#{searchKeyword}||'%'
+		</if>
+		<if test="searchCondition == 'KEYWORD'">
+			and category like '%'||#{searchKeyword}||'%'
+		</if>
+		<if test="searchCondition == 'CONTENT'">
+			and maincontent like '%'||#{searchKeyword}||'%'
+		</if>
+		order by number
+		limit #{perPageNum} offset #{pageStart} ;
+	</select>
+
+	<select id="getDayList" parameterType="PpomppuVO" resultType="ppomppuvo">
+		<![CDATA[
+		select	count(number) as count, date
+		from 	ppomppu
+		where	date >= #{start_date} and date <= #{end_date}
+		]]>
+		group by date
+		order by date;
+	</select>
+
+	<select id="getChartList" resultType="ppomppuvo">
+		<![CDATA[
+		select	*,
+				  round(100.0 * a.cnt_total / sum(a.cnt_total) over()::numeric, 1) as ratio
+		from 	(select	row_number() over(order by count(c_category) desc) as row_number,
+						 c_category,
+						   count(*) as cnt_total
+				 from	category
+				 where	c_date >= #{start_date}
+			   	 and	c_date <= #{end_date}
+				 group by	c_category
+				 order by	cnt_total desc
+					 limit 10) a
+		]]>
+	</select>
+
+	<select id="getKeywordList" resultType="ppomppuvo">
+		<![CDATA[
+		select	a.row_number,
+				  a.c_category,
+				  a.cnt_total,
+				  round(100.0 * a.cnt_total / sum(a.cnt_total) over()::numeric, 2) as ratio,
+				  round(((a.cnt_total-coalesce(b.cnt_total,0))/ coalesce(b.cnt_total,1)::numeric)* 100::numeric , 2) as roc
+		from
+			(select	row_number() over(
+			order by count(c_category) desc) as row_number,
+					 c_category,
+					   count(c_category) as cnt_total
+			 from	category
+			 where	c_date >= #{start_date}
+			   and		c_date <= #{end_date}
+			 group by	c_category
+				 limit 10) a
+				left outer join
+			(select	coalesce(c_category,null) as c_category,
+					   coalesce(count(c_category),0) as cnt_total
+			 from	date_category dc
+						 left outer join
+					 category c
+					 on dc.c_date = c.c_date
+			 where	dc.c_date >= to_char(#{start_date}::date-interval '1 year', 'yyyy-mm-dd')
+			   and	dc.c_date <= to_char(#{end_date}::date-interval '1 year', 'yyyy-mm-dd')
+			 group by	c_category
+			 order by	cnt_total desc) b
+			on	a.c_category = b.c_category
+		order by	a.row_number;
+		]]>
+	</select>
+
+	<select id="getAreaChart" resultType="ppomppuvo">
+		<![CDATA[
+		select	c_date,
+				COALESCE(all_cnt,0) as cnt_total
+		from 	date_category dc
+				left outer join
+				(select sum(cnt_total) as all_cnt,
+					 date
+				 from (
+					 select	row_number() over(order by count(c_category) desc) as row_number,
+					 		c_category,
+							count(c_category) as cnt_total,
+					 		c_date as date
+					 from 	category
+					 where	c_date >= #{start_date} and c_date <= #{end_date}
+					 and	c_category like '%'||#{c_category}||'%'
+					 group by c_category, date) a
+				 group by date) aa
+				on		dc.c_date = aa.date
+		where 	dc.c_date >= #{start_date}
+		  and	dc.c_date <= #{end_date}
+		order by c_date
+		]]>
+	</select>
+
+	<select id="getAreaChartLY" resultType="ppomppuvo">
+		<![CDATA[
+		select	c_date,
+				COALESCE(all_cnt,0) as cnt_total
+		from 	date_category dc
+				left outer join
+				(select sum(cnt_total) as all_cnt,
+					 	date
+				 from (
+					 select	c_category,
+							count(c_category) as cnt_total,
+							c_date as date
+					 from 	category
+					 where	c_date >= to_char(#{start_date}::date-interval '1 year','yyyy-mm-dd')
+					 and	c_date <= to_char(#{end_date}::date-interval '1 year','yyyy-mm-dd')
+					 and	c_category like '%'||#{c_category}||'%'
+					 group by c_category, date) a
+				 group by date) aa
+				on		dc.c_date = aa.date
+		where 	dc.c_date >= to_char(#{start_date}::date-interval '1 year','yyyy-mm-dd')
+		  and	dc.c_date <= to_char(#{end_date}::date-interval '1 year','yyyy-mm-dd')
+		order by c_date
+		]]>
+	</select>
+
+	<select id="getAreaAvgTY" resultType="ppomppuvo">
+		<![CDATA[
+		select 	round(avg(cnt_total)::numeric ,2) as allAvg
+		from 	(
+					select	sum(cnt_total) as cnt_total,
+						date
+					from	(
+						select	c_category,
+						count(c_category) as cnt_total,
+						c_date as date
+						from 	category
+						where	c_date >= #{start_date} and c_date <= #{end_date}
+						and		c_category like '%'||#{c_category}||'%'
+						group by c_category, date
+						order by date
+						) a
+					group by date
+				) aa
+		]]>
+	</select>
+
+	<select id="getAreaAvgLY" resultType="ppomppuvo">
+		<![CDATA[
+		select 	coalesce(round(avg(cnt_total)::numeric ,2),0) as allAvg
+		from 	(
+					select	sum(cnt_total) as cnt_total,
+						date
+					from	(
+						select	c_category,
+						count(c_category) as cnt_total,
+						c_date as date
+						from 	category
+						where	c_date >= to_char(#{start_date}::date-interval '1 year','yyyy-mm-dd')
+						and		c_date <= to_char(#{end_date}::date-interval '1 year','yyyy-mm-dd')
+						and		c_category like '%'||#{c_category}||'%'
+						group by c_category, date
+						order by date
+						) a
+					group by date
+				) aa
+		]]>
+	</select>
+</mapper>

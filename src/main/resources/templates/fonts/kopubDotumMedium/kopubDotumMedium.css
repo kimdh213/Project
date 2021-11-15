@@ -1,0 +1,24 @@
+/*
+ * KoPub DotumMedium (Korean)
+ */
+@font-face {
+  font-family: 'KoPub DotumMedium';
+  font-style: normal;
+  font-weight: 300;
+  src: url(/font/KoPubDotumMedium.ttf);
+  src: url(/font/KoPubDotumMedium.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'KoPub DotumMedium';
+  font-style: normal;
+  font-weight: 400;
+  src: url(/font/KoPubDotumMedium.ttf);
+  src: url(/font/KoPubDotumMedium.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'KoPub DotumMedium';
+  font-style: normal;
+  font-weight: 700;
+  src: url(/font/KoPubDotumMedium.ttf);
+  src: url(/font/KoPubDotumMedium.ttf) format('truetype');
+}

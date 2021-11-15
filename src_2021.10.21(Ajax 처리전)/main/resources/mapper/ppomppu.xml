@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ppomppu">
+
+    <select id="getBoardList" resultType="ppomppuvo">
+		<![CDATA[
+        select *, count(*) over() as t_count
+        from ppomppu
+        where date >= #{start_date} and date <= #{end_date}
+		]]>
+		<if test="searchCondition == 'TITLE'">
+			and l_title like '%'||#{searchKeyword}||'%'
+		</if>
+		<if test="searchCondition == 'KEYWORD'">
+			and category like '%'||#{searchKeyword}||'%'
+		</if>
+		<if test="searchCondition == 'CONTENT'">
+			and maincontent like '%'||#{searchKeyword}||'%'
+		</if>
+		order by number
+		limit #{perPageNum} offset #{pageStart} ;
+	</select>
+
+	<select id="getDayList" parameterType="PpomppuVO" resultType="ppomppuvo">
+		<![CDATA[
+		select	count(number) as count, date
+		from 	ppomppu
+		where	date >= #{start_date} and date <= #{end_date}
+		]]>
+		group by date
+		order by date;
+	</select>
+
+	<select id="getChartList" resultType="ppomppuvo">
+		<![CDATA[
+		select	c_category as categoryName, count(c_category) as categoryCount
+		from 	category
+		where	c_date >= #{start_date} and c_date <= #{end_date}
+		]]>
+		group by categoryName
+		order by categoryCount desc
+		limit 10;
+	</select>
+</mapper>
