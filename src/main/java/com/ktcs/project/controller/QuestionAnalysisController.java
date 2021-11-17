@@ -23,29 +23,25 @@ public class QuestionAnalysisController {
         model.addAttribute("search", ppomppuVO);
 
         /** 처음 질문유형 페이지에 접속 시, StartDate와 EndDate 가 없으므로 아래 적용 */
-        if(ppomppuVO.getStart_date()!=null) {
+        if(ppomppuVO.getStart_date() != null) {
             List<PpomppuVO> chartList = ppomppuService.getChartList(ppomppuVO);
-
-            model.addAttribute("chartList", chartList);
 
             JsonArray jsonArray = new JsonArray();
 
             /** Top1 에는 cateogry명과 count, sliced, selected 가 포함 */
-            for(int i=0; i<1; i++) {
-                JsonObject json = new JsonObject();
-                json.addProperty("name", chartList.get(i).getC_category());
-                json.addProperty("y", chartList.get(i).getCnt_total());
-                json.addProperty("sliced","true");
-                json.addProperty("selected", "true");
-                jsonArray.add(json);
-            }
+            JsonObject json = new JsonObject();
+            json.addProperty("name", chartList.get(0).getC_category());
+            json.addProperty("y", chartList.get(0).getCnt_total());
+            json.addProperty("sliced","true");
+            json.addProperty("selected", "true");
+            jsonArray.add(json);
 
             /** Top2~Top5 까지는 각각의 Category명과 Count 가 포함 */
             for(int i=1; i<5; i++) {
-                JsonObject json = new JsonObject();
-                json.addProperty("name", chartList.get(i).getC_category());
-                json.addProperty("y", chartList.get(i).getCnt_total());
-                jsonArray.add(json);
+                JsonObject json1 = new JsonObject();
+                json1.addProperty("name", chartList.get(i).getC_category());
+                json1.addProperty("y", chartList.get(i).getCnt_total());
+                jsonArray.add(json1);
             }
 
             /** Top6~10 까지는 기타항목으로 보여지며, 합산된 Count 가 포함  */
@@ -53,12 +49,13 @@ public class QuestionAnalysisController {
             for(int i=5; i<10; i++) {
                 sum_cnt += chartList.get(i).getCnt_total();
             }
-            JsonObject json = new JsonObject();
-            json.addProperty("name", "기타");
-            json.addProperty("y", sum_cnt);
-            jsonArray.add(json);
+            JsonObject json2 = new JsonObject();
+            json2.addProperty("name", "기타");
+            json2.addProperty("y", sum_cnt);
+            jsonArray.add(json2);
 
             model.addAttribute("jsonArray", jsonArray);
+            model.addAttribute("chartList", chartList);
         }
         return "QuestionAnalysis";
     }

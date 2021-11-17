@@ -31,11 +31,11 @@ function getSearchList(category) {
             // 조회년도
             var date = JSON.parse(jsonAreaChart[0].categories);
             var count = JSON.parse(jsonAreaChart[1].data);
+            var avgTY = JSON.parse((jsonAreaChart[4]));
+
             // 조회1년전
             var dately = JSON.parse(jsonAreaChart[2].categories);
             var countly = JSON.parse(jsonAreaChart[3].data);
-
-            var avgTY = JSON.parse((jsonAreaChart[4]));
             var avgLY = JSON.parse((jsonAreaChart[5]));
 
             Highcharts.chart('container', {

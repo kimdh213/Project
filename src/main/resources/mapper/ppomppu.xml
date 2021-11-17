@@ -67,7 +67,7 @@
 				 limit 10) a
 				left outer join
 			(select	coalesce(c_category,null) as c_category,
-					   coalesce(count(c_category),0) as cnt_total
+					coalesce(count(c_category),0) as cnt_total
 			 from	date_category dc
 						 left outer join
 					 category c

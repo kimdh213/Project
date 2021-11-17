@@ -94,7 +94,6 @@ public class KeywordAnalysisContorller {
         jsonArray.add(areaChartAvgTY.getAllAvg());
         jsonArray.add(areaChartAvgLY.getAllAvg());
 
-
         // 5. json 객체로 list 변환(vo)
         Gson gson = new Gson();
         String jsonAreaChart = gson.toJson(jsonArray);

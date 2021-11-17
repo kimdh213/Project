@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:fragment="head(title)">
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,33 +15,6 @@
     <!-- 개인 css 파일 -->
     <link rel="stylesheet" href="/css/main.css">
 
-    <!-- 조회 관련 SCRIPTS -->
-    <script>
-        function DateCheck() {
-            var arySrtDt = document.frm.start_date.value.split("-");
-            var aryEndDt = document.frm.end_date.value.split("-");
-
-            if( arySrtDt.length != 3 || aryEndDt.length != 3){
-                alert("날짜 형식이 잘못되었습니다.");
-                return false;
-            }
-            var startDt = new Date(Number(arySrtDt[0]),Number(arySrtDt[1])-1,Number(arySrtDt[2]));
-            var endDt = new Date(Number(aryEndDt[0]),Number(aryEndDt[1])-1,Number(aryEndDt[2]));
-
-            resultDt = Math.floor(endDt.valueOf()/(24*60*60*1000)- startDt.valueOf()/(24*60*60*1000));
-
-            if(resultDt < 0 ){
-                alert("조회 시작일이 종료일 보다 큽니다.");
-                return false;
-            }
-            if(resultDt > 30){
-                alert("조회기간은 30일을 초과할 수 없습니다.");
-                return false;
-            }
-            return "/getBoardList.do";
-        }
-    </script>
-
     <!-- IE8 에서 HTML5 요소와 미디어 쿼리를 위한 HTML5 shim 와 Respond.js -->
     <!-- WARNING: Respond.js 는 당신이 file:// 을 통해 페이지를 볼 때는 동작하지 않습니다. -->
     <!--[if lt IE 9]>
@@ -54,8 +27,8 @@
         <h3> 뽐뿌 사이트 분석</h3>
         <ul class="nav nav-pills">
             <li style="margin-bottom: 5px;" role="presentation" class="active"><a href="/">수집 데이터</a></li>
-            <li style="margin-bottom: 5px;" role="presentation"><a href="QuestionAnalysis.html">질문 유형 분석</a></li>
-            <li style="margin-bottom: 5px;" role="presentation"><a href="KeywordAnalysis.html">키워드 분석</a></li>
+            <li style="margin-bottom: 5px;" role="presentation"><a href="/getChartList.do">질문 유형 분석</a></li>
+            <li style="margin-bottom: 5px;" role="presentation"><a href="/getKeywordList.do">키워드 분석</a></li>
         </ul>
         <hr style="margin: 5px 0px">
         <br>
@@ -70,7 +43,6 @@
                 <tr>
                     <td style="background:#337ab7; color: white; width: 10%;">질문 건수</td>
                     <td></td>
-                    <th></th>
                 </tr>
             </table>
         </div>
