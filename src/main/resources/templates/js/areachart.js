@@ -38,12 +38,18 @@ function getSearchList(category) {
             var countly = JSON.parse(jsonAreaChart[3].data);
             var avgLY = JSON.parse((jsonAreaChart[5]));
 
+            if (category == '') {
+                var mainTitle = '전체';
+            } else {
+                var mainTitle = list.c_category;
+            }
+
             Highcharts.chart('container', {
                 chart: {
                     type: 'area'
                 },
                 title: {
-                    text: ''
+                    text: '"'+mainTitle+'" 조회 결과'
                 },
                 subtitle: {
                     text: '',
@@ -77,12 +83,14 @@ function getSearchList(category) {
                             zIndex: 5,
                             label: {
                                 text: '조회연도: '+avgTY,
+                                useHTML: true,
                                 align: 'right',
                                 x: -10,
                                 y: -6,
                                 style: {
                                     color:'#fa219c',
                                     fontWeight: '700',
+                                    backgroundColor: 'white',
                                 }
                             }
                         },
@@ -94,12 +102,14 @@ function getSearchList(category) {
                             zIndex: 5,
                             label: {
                                 text:'조회전연도: '+avgLY,
+                                useHTML: true,
                                 align: 'right',
                                 x: -10,
                                 y: -6,
                                 style: {
                                     color:'#1aba00',
                                     fontWeight: '700',
+                                    backgroundColor: 'white',
                                 },
                                 //useHTML: true,
                             }

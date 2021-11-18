@@ -91,6 +91,7 @@ public class KeywordAnalysisContorller {
 
         jsonArray.add(jsonObjectDateLY);
         jsonArray.add(jsonObjectCountLY);
+
         jsonArray.add(areaChartAvgTY.getAllAvg());
         jsonArray.add(areaChartAvgLY.getAllAvg());
 
