@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -37,10 +38,9 @@ public class KeywordAnalysisContorller {
     // ajax 컨트롤러
     @ResponseBody
     @RequestMapping("getAjaxArea.do")
-    public String getAjaxArea(PpomppuVO ppomppuVO) {
+    public String getAjaxArea(PpomppuVO ppomppuVO) throws ParseException {
 
         JsonArray jsonArray = new JsonArray();
-        SimpleDateFormat fm = new SimpleDateFormat("MM-dd");
 
         // 1. 자바스크립트로 호출받았을 때 리스트 조회
         List<PpomppuVO> areaChart = ppomppuService.getAreaChart(ppomppuVO);
@@ -54,7 +54,7 @@ public class KeywordAnalysisContorller {
         JsonArray jsonArrayDate = new JsonArray();
         for(int i=0; i<areaChart.size(); i++) {
             String c_date = areaChart.get(i).getC_date();
-            jsonArrayDate.add(c_date);
+            jsonArrayDate.add(c_date.substring(5,10));
         }
         jsonObjectDate.addProperty("categories", jsonArrayDate.toString());
 

@@ -65,17 +65,17 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="keyword : ${keywordList}">
-                <td th:text="${keyword.row_number}"></td>
+            <tr th:each="keyword,index : ${keywordList}">
+                <td th:text="${index.index+1}"></td>
                 <td>
                     <a th:text="${keyword.c_category}" th:value="${keyword.c_category}"
                        id = "category_name" onmouseover="getSearchList($(this).attr('value'))">
                     </a>
                 </td>
-                <td th:text="${keyword.cnt_total}"></td>
+                <td th:text="${#numbers.formatInteger(keyword.cnt_total,0,'COMMA')}"></td>
                 <td th:text="${keyword.ratio}"></td>
                 <td th:text="${#strings.replace(keyword.roc,'-','')}"
-                    th:classappend="${keyword.roc > 0 ? 'glyphicon glyphicon-triangle-top':'glyphicon glyphicon-triangle-bottom'}"></td>
+                    th:classappend="${keyword.roc > 0 ? 'bi bi-arrow-up':'bi bi-arrow-down'}"></td>
             </tr>
             </tbody>
         </table>

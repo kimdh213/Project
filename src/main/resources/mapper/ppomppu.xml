@@ -50,34 +50,35 @@
 
 	<select id="getKeywordList" resultType="ppomppuvo">
 		<![CDATA[
-		select	a.row_number,
-				  a.c_category,
-				  a.cnt_total,
-				  round(100.0 * a.cnt_total / sum(a.cnt_total) over()::numeric, 2) as ratio,
-				  round(((a.cnt_total-coalesce(b.cnt_total,0))/ coalesce(b.cnt_total,1)::numeric)* 100::numeric , 2) as roc
-		from
-			(select	row_number() over(
-			order by count(c_category) desc) as row_number,
-					 c_category,
-					   count(c_category) as cnt_total
-			 from	category
-			 where	c_date >= #{start_date}
-			   and		c_date <= #{end_date}
-			 group by	c_category
-				 limit 10) a
-				left outer join
-			(select	coalesce(c_category,null) as c_category,
-					coalesce(count(c_category),0) as cnt_total
-			 from	date_category dc
-						 left outer join
-					 category c
-					 on dc.c_date = c.c_date
-			 where	dc.c_date >= to_char(#{start_date}::date-interval '1 year', 'yyyy-mm-dd')
-			   and	dc.c_date <= to_char(#{end_date}::date-interval '1 year', 'yyyy-mm-dd')
-			 group by	c_category
-			 order by	cnt_total desc) b
-			on	a.c_category = b.c_category
-		order by	a.row_number;
+		select	aa.c_category,
+				  aa.cnt_total,
+				  aa.ratio,
+				  aa.avg_this,
+				  aa.avg_last,
+				  round(((aa.avg_this-coalesce(aa.avg_last,0))/coalesce (aa.avg_last,1)::numeric)*100::numeric ,2) as roc
+		from	(
+				select	a.c_category,
+					  	a.cnt_total,
+						round((a.cnt_total/sum(cnt_total) over())*100, 2) as ratio,
+						(a.cnt_total/c_date) as avg_this,
+						((select	count(c_category)
+							from	category
+							where	c_date >= to_char(#{start_date}::date-interval '1 year', 'yyyy-mm-dd')
+							and		c_date <= to_char(#{end_date}::date-interval '1 year', 'yyyy-mm-dd')
+							and		c_category = a.c_category)/nullif((select	count(distinct c_date)
+																from	category
+																where	c_date >= to_char(#{start_date}::date-interval '1 year', 'yyyy-mm-dd')
+																and		c_date <= to_char(#{end_date}::date-interval '1 year', 'yyyy-mm-dd')
+																and		c_category = a.c_category),0)) as avg_last
+				from	(select	count(distinct c_date) as c_date,
+								   c_category,
+								   count(*) as cnt_total
+						 from	category c
+						 where	c_date >= #{start_date}
+					  	 and	c_date <= #{end_date}
+						 group by c_category
+						 order by cnt_total desc
+						 limit 10) a) aa
 		]]>
 	</select>
 
