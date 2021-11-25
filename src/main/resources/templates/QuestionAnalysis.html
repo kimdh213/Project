@@ -4,15 +4,17 @@
     <th:block th:replace="/fragments/header.html :: headerFragment('질문 유형 분석')"></th:block>
 </head>
 <body>
-<div class="container">
-    <h3> 뽐뿌 사이트 분석</h3>
+
+<div class="nav-div">
     <ul class="nav nav-pills">
+        <h3 style="color: white;"> 뽐뿌 사이트 분석</h3>
         <li style="margin-bottom: 5px;" role="presentation"><a href="/">수집 데이터</a></li>
         <li style="margin-bottom: 5px;" role="presentation" class="active"><a href="/getChartList.do">질문 유형 분석</a></li>
         <li style="margin-bottom: 5px;" role="presentation"><a href="/getKeywordList.do">키워드 분석</a></li>
     </ul>
-    <hr style="margin: 5px 0px">
-    <br>
+</div>
+<div class="container">
+    <hr style="margin: 75px 0px">
     <h4> 수집 현황</h4>
     <!--조회 form -->
     <form class="form-inline" id="frm" name="frm" action="/getChartList.do" method="post">
@@ -71,12 +73,14 @@
 
 
 <!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<!--<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>-->
 <script type="text/javascript" th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js}"></script>
 <!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
-<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+<!--<script type="text/javascript" src="/js/bootstrap.min.js"></script>-->
 <script type="text/javascript" th:src="@{/templates/js/bootstrap.min.js}"></script>
 
-
 </body>
+<footer>
+    <th:block th:replace="/fragments/footer.html :: footerFragment"></th:block>
+</footer>
 </html>

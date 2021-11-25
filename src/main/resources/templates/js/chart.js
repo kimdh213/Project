@@ -32,6 +32,7 @@ function drawPieChart(data) {
             }
         },
         series: [{
+            innerSize: '40%',
             name: '백분율(%)',
             colorByPoint: true,
             data: data

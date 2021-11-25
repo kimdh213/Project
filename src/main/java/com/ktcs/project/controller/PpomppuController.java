@@ -19,6 +19,11 @@ public class PpomppuController {
     @Autowired
     private PpomppuService ppomppuService;
 
+    @RequestMapping(value = "/")
+    public String index() {
+        return "index";
+    }
+
     @RequestMapping(value = "/getBoardList.do")
     public String getBoardList(@ModelAttribute("ppomppu") PpomppuVO ppomppuVO, Model model) {
         PageMaker pageMaker = new PageMaker();
@@ -40,18 +45,5 @@ public class PpomppuController {
         model.addAttribute("dayList",dayList);
 
         return "GatherData";
-    }
-
-    @ResponseBody
-    @RequestMapping("/getAjaxList.do")
-    public String getAjaxList(PpomppuVO ppomppuVO, Model model) {
-        PageMaker pageMaker = new PageMaker();
-
-        List<PpomppuVO> boardList = ppomppuService.getBoardList(ppomppuVO);
-        pageMaker.setTotalCount(boardList.get(0).getT_count());
-
-        Gson gson = new Gson();
-        String jsonBoardList=gson.toJson(boardList);
-        return jsonBoardList;
     }
 }
