@@ -1,16 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <!-- Header -->
 <th:block th:replace="/fragments/header.html :: headerFragment('수집 데이터')"></th:block>
+
 <body>
-    <div class="nav-div">
-        <ul class="nav nav-pills">
-            <h3 style="color: white;"> 뽐뿌 사이트 분석</h3>
-            <li style="margin-bottom: 5px;" role="presentation" class="active"><a href="/">수집 데이터</a></li>
-            <li style="margin-bottom: 5px;" role="presentation"><a href="/getChartList.do">질문 유형 분석</a></li>
-            <li style="margin-bottom: 5px;" role="presentation"><a href="/getKeywordList.do">키워드 분석</a></li>
-        </ul>
-    </div>
+    <!-- Nav -->
+    <th:block th:replace="/fragments/nav.html :: navFragment('수집 데이터')"></th:block>
+
     <div class="container">
         <hr style="margin: 75px 0px">
         <h4> 수집 현황</h4>
@@ -71,44 +68,9 @@
                 <tbody>
                 <tr>
                     <td></td>
-                    <td>
-                        <a data-toggle="modal"></a>
-                    </td>
                     <td></td>
-                    <td>
-                        <td>
-                        <!-- 세부내용 Modal -->
-                        <div class="modal fade" role="dialog">
-                            <div class="modal-dialog">
-                                <!-- Modal content-->
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        <h4 class="modal-title">질문 세부내용</h4>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="modal-body">
-                                            <table class="schedule_table">
-                                                <tr>
-                                                    <th id="s_table_title" style="width:100px; background:#337ab7; color: white;">질문 제목</th>
-                                                    <th id="s_table_title" style="width:500px; background:#337ab7; color: white;"></th>
-                                                </tr>
-                                                <tr>
-                                                    <td id="s_table_memo1" style="background:#337ab7; color: white;">질문 내용</td>
-                                                    <td id="s_table_memo2"></td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- 세부내용 Modal 끝 -->
-                        </td>
-                    </td>
+                    <td></td>
+                    <td></td>
                 </tr>
                 </tbody>
             </table>
@@ -138,13 +100,13 @@
     </div>
 
 
-<!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<!--    <script type="text/javascript" th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js}"></script>-->
-<!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
-    <script type="text/javascript" src="/js/bootstrap.min.js"></script>
-<!--    <script type="text/javascript" th:src="@{/templates/js/bootstrap.min.js}"></script>-->
-
+    <!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
+    <script type="text/javascript" th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js}"></script>
+    <!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
+    <script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
 </body>
-    <th:block th:replace="/fragments/footer.html :: footerFragment"></th:block>
+
+<!-- Footer -->
+<th:block th:replace="/fragments/footer.html :: footerFragment"></th:block>
+
 </html>

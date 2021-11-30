@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="navFragment(param1)">
+    <div class="nav-div">
+        <ul class="nav nav-pills">
+            <h3 style="color: white;"> 뽐뿌 사이트 분석</h3>
+
+            <li style="margin-bottom: 5px;" role="presentation"
+                th:classappend="${param1=='수집 데이터'} ? 'active not-active'">
+                <a href="/">수집 데이터</a></li>
+            <li style="margin-bottom: 5px;" role="presentation"
+                th:classappend="${param1=='질문 유형 분석'} ? 'active not-active'">
+                <a href="/getChartList.do">질문 유형 분석</a></li>
+            <li style="margin-bottom: 5px;" role="presentation"
+                th:classappend="${param1=='키워드 분석'} ? 'active not-active'">
+                <a href="/getKeywordList.do">키워드 분석</a></li>
+        </ul>
+    </div>
+</th:block>
+</html>
