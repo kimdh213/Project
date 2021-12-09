@@ -1,4 +1,4 @@
-package com.ktcs.project.Biz;
+package com.ktcs.project.biz;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

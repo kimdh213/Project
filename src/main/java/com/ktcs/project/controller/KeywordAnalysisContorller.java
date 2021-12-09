@@ -3,8 +3,8 @@ package com.ktcs.project.controller;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.ktcs.project.Biz.PpomppuService;
-import com.ktcs.project.Biz.PpomppuVO;
+import com.ktcs.project.biz.PpomppuService;
+import com.ktcs.project.biz.PpomppuVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 @Controller

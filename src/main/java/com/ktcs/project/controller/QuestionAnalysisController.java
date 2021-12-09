@@ -2,8 +2,8 @@ package com.ktcs.project.controller;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.ktcs.project.Biz.PpomppuService;
-import com.ktcs.project.Biz.PpomppuVO;
+import com.ktcs.project.biz.PpomppuService;
+import com.ktcs.project.biz.PpomppuVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
